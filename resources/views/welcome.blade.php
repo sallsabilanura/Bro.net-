@@ -15,6 +15,24 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#006D77',
+                        'primary-light': '#83C5BE',
+                        secondary: '#EDF6F9',
+                        accent: '#FFDDD2',
+                        dark: '#1F2937',
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         :root {
             --primary: #006D77;
@@ -40,8 +58,34 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, .bn-heading {
             font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .bn-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.04);
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bn-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0,109,119,0.1);
+            border-color: var(--primary-light);
+        }
+
+        .bn-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .container {
@@ -75,8 +119,17 @@
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             align-items: center;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-left: 1px solid rgba(0,0,0,0.05);
+            padding-left: 20px;
+            margin-left: 10px;
         }
 
         .nav-links a {
@@ -679,16 +732,30 @@
     <nav id="mainNav">
         <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <a href="/" class="logo-container" style="text-decoration: none;">
-                <img src="/Bronet.png" alt="Bintang Respon Optimal" class="logo">
+                <img src="/Bronet.png" alt="Bintang Respon Optimal" class="logo" style="height: 45px;">
             </a>
-            <div class="nav-links" id="navLinks">
-                <a href="#">Beranda</a>
-                <a href="#fitur">Fitur</a>
-                <a href="#paket">Paket</a>
-                <a href="#ulasan">Ulasan</a>
-                <a href="#jangkauan">Area</a>
-                <a href="https://wa.me/6288223980063" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">Hubungi Kami</a>
+            
+            <div style="display: flex; align-items: center;">
+                <div class="nav-links" id="navLinks">
+                    <a href="#">Beranda</a>
+                    <a href="#fitur">Fitur</a>
+                    <a href="#paket">Paket</a>
+                    <a href="#ulasan">Area</a>
+                    
+                    <div class="auth-links">
+                        @guest
+                            <a href="{{ route('login') }}" style="font-size: 0.85rem; opacity: 0.7;">Login</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.75rem; border-radius: 8px;">Daftar</a>
+                        @else
+                            <a href="{{ route('dashboard') }}" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.75rem; border-radius: 8px;">Dashboard</a>
+                        @endguest
+                        <a href="https://wa.me/6288223980063" class="btn" style="background: #10B981; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.75rem;" title="Hubungi Kami">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
+
             <button class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
             </button>
@@ -745,71 +812,100 @@
     </section>
 
     <section class="pricing" id="paket">
-        <div class="container">
-            <div class="section-title">
-                <h2>Paket Berlangganan</h2>
+        <div class="container max-w-6xl mx-auto">
+            <div class="section-title mb-16">
+                <span class="bn-badge mb-4">Pilihan Terbaik</span>
+                <h2 class="!text-4xl">Paket Berlangganan</h2>
+                <p class="text-slate-500 mt-2">Pilih koneksi yang paling pas untuk gaya hidup digitalmu</p>
             </div>
-            <div class="pricing-grid">
-                <!-- Bronze Package -->
-                <div class="pricing-card glass">
-                    <span class="pkg-badge">Bronze Package</span>
-                    <h3>Bro.net Speed</h3>
-                    <div class="price">20 <span>MBPS</span></div>
-                    <div class="pricing-note">
-                        <i class="fas fa-info-circle"></i> Harga termasuk pajak & biaya lainnya
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Silver -->
+                <div class="bn-card flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 text-slate-400">
+                        <i class="fas fa-paper-plane text-xl"></i>
                     </div>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Kecepatan hingga 20 Mbps</li>
-                        <li><i class="fas fa-check-circle"></i> Kuota Tanpa Batas (Unlimited)</li>
-                        <li><i class="fas fa-check-circle"></i> Dukungan Teknis 24/7</li>
-                        <li><i class="fas fa-check-circle"></i> Biaya Instalasi Rp 100.000</li>
+                    <h3 class="text-2xl mb-1">Silver</h3>
+                    <p class="text-slate-400 text-sm mb-6">Cocok untuk harian ringan</p>
+                    
+                    <div class="mb-8">
+                        <span class="text-4xl font-black text-dark">150rb</span>
+                        <span class="text-slate-400 font-medium">/bln</span>
+                    </div>
+                    
+                    <ul class="w-full space-y-4 mb-10 text-left border-t border-slate-50 pt-8 mt-auto">
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Up to 20 Mbps
+                        </li>
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Unlimited Bandwidth
+                        </li>
                     </ul>
-                    <div class="price" style="font-size: 2.5rem; margin-top: auto;">150k <span>/ Bulan</span></div>
-                    <a href="https://wa.me/6288223980063?text=Halo%20Bro.net,%20saya%20ingin%20pasang%20Paket%20Bronze%2020Mbps" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 20px;" target="_blank">
-                        Pesan Sekarang
-                    </a>
+                    
+                    <a href="{{ route('register') }}" class="btn btn-primary w-full !rounded-2xl !py-4 shadow-lg">Daftar Sekarang</a>
                 </div>
 
-                <!-- Silver Package -->
-                <div class="pricing-card glass featured">
-                    <span class="pkg-badge" style="background: var(--primary);">Silver Package</span>
-                    <h3>Bro.net Fast</h3>
-                    <div class="price">25 <span>MBPS</span></div>
-                    <div class="pricing-note">
-                        <i class="fas fa-star" style="color: #FBBF24;"></i> Paket Paling Populer
+                <!-- Ultra -->
+                <div class="bn-card flex flex-col items-center text-center !border-primary relative overflow-hidden">
+                    <div class="absolute top-0 right-0">
+                        <div class="bg-primary text-white text-[10px] font-black py-1 px-8 rotate-45 transform translate-x-3 translate-y-3 uppercase tracking-widest shadow-sm">Hot</div>
                     </div>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Kecepatan hingga 25 Mbps</li>
-                        <li><i class="fas fa-check-circle"></i> Kuota Tanpa Batas (Unlimited)</li>
-                        <li><i class="fas fa-check-circle"></i> Prioritas Dukungan Teknis</li>
-                        <li><i class="fas fa-check-circle"></i> Biaya Instalasi Rp 100.000</li>
+                    
+                    <div class="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 text-primary">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl mb-1">Ultra</h3>
+                    <p class="text-slate-400 text-sm mb-6">Terbaik untuk streaming</p>
+                    
+                    <div class="mb-8">
+                        <span class="text-4xl font-black text-dark">175rb</span>
+                        <span class="text-slate-400 font-medium">/bln</span>
+                    </div>
+                    
+                    <ul class="w-full space-y-4 mb-10 text-left border-t border-slate-50 pt-8 mt-auto">
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Up to 50 Mbps
+                        </li>
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Unlimited Bandwidth
+                        </li>
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Priority Content
+                        </li>
                     </ul>
-                    <div class="price" style="font-size: 2.5rem; margin-top: auto;">175k <span>/ Bulan</span></div>
-                    <a href="https://wa.me/6288223980063?text=Halo%20Bro.net,%20saya%20ingin%20pasang%20Paket%20Silver%2025Mbps" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 20px;" target="_blank">
-                        Pesan Sekarang
-                    </a>
+                    
+                    <a href="{{ route('register') }}" class="btn btn-primary w-full !rounded-2xl !py-4 shadow-lg !bg-dark">Daftar Sekarang</a>
                 </div>
 
-                <!-- Gold Package -->
-                <div class="pricing-card glass">
-                    <span class="pkg-badge" style="background: #D97706;">Gold Package</span>
-                    <h3>Bro.net Ultra</h3>
-                    <div class="price">50 <span>MBPS</span></div>
-                    <div class="pricing-note">
-                        <i class="fas fa-rocket"></i> Performa Maksimal
+                <!-- Extreme -->
+                <div class="bn-card flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-6 text-slate-400">
+                        <i class="fas fa-rocket text-xl"></i>
                     </div>
-                    <ul>
-                        <li><i class="fas fa-check-circle"></i> Kecepatan hingga 50 Mbps</li>
-                        <li><i class="fas fa-check-circle"></i> Kuota Tanpa Batas (Unlimited)</li>
-                        <li><i class="fas fa-check-circle"></i> VIP Dukungan Teknis</li>
-                        <li><i class="fas fa-check-circle"></i> Biaya Instalasi Rp 100.000</li>
+                    <h3 class="text-2xl mb-1">Extreme</h3>
+                    <p class="text-slate-400 text-sm mb-6">Gamers & Heavy Users</p>
+                    
+                    <div class="mb-8">
+                        <span class="text-4xl font-black text-dark">200rb</span>
+                        <span class="text-slate-400 font-medium">/bln</span>
+                    </div>
+                    
+                    <ul class="w-full space-y-4 mb-10 text-left border-t border-slate-50 pt-8 mt-auto">
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Up to 100 Mbps
+                        </li>
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Unlimited Bandwidth
+                        </li>
+                        <li class="flex items-center text-sm font-semibold text-slate-600">
+                            <i class="fas fa-check-circle text-primary mr-3"></i> Low Latency Gaming
+                        </li>
                     </ul>
-                    <div class="price" style="font-size: 2.5rem; margin-top: auto;">200k <span>/ Bulan</span></div>
-                    <a href="https://wa.me/6288223980063?text=Halo%20Bro.net,%20saya%20ingin%20pasang%20Paket%20Gold%2050Mbps" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 20px;" target="_blank">
-                        Pesan Sekarang
-                    </a>
+                    
+                    <a href="{{ route('register') }}" class="btn btn-primary w-full !rounded-2xl !py-4 shadow-lg">Daftar Sekarang</a>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

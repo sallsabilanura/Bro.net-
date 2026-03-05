@@ -21,6 +21,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_subscribed',
+        'phone',
+        'address',
+        'package_type',
+        'package_price',
+        'status',
+        'customer_id',
+        'active_until',
     ];
 
     /**
@@ -40,5 +49,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_subscribed' => 'boolean',
+        'active_until' => 'date',
     ];
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }
